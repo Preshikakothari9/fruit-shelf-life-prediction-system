@@ -1,0 +1,10 @@
+{
+  "classes": [
+    "fresh_apple",
+    "fresh_banana",
+    "fresh_orange",
+    "rotten_apple",
+    "rotten_banana",
+    "rotten_orange"
+  ]
+}

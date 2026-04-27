@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+  <div class="auth-card glass">
+    <div class="brand">
+      <span class="brand-icon">🚀</span>
+      <h1>Join FruitFresh</h1>
+      <p>Start predicting shelf life today</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.register') }}" id="register-form">
+      <div class="form-floating">
+        <input type="text" id="username" name="username" placeholder=" " required autocomplete="username">
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating">
+        <input type="email" id="email" name="email" placeholder=" " required autocomplete="email">
+        <label for="email">Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" id="password" name="password" placeholder=" " required minlength="6" autocomplete="new-password">
+        <label for="password">Password</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" id="confirm_password" name="confirm_password" placeholder=" " required minlength="6" autocomplete="new-password">
+        <label for="confirm_password">Confirm Password</label>
+      </div>
+      <button type="submit" class="btn-glow" id="btn-register">Create Account</button>
+    </form>
+
+    <div style="text-align:center; margin-top:1.2rem;">
+      <a href="{{ url_for('auth.login') }}" class="btn-ghost">← Back to Login</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

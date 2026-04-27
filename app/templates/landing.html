@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+{% endblock %}
+
+{% block body %}
+<!-- ═══ Floating orbs background ═══ -->
+<div class="orbs-container">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+</div>
+
+<!-- ═══ HERO SECTION ═══ -->
+<section class="hero-section" id="hero">
+  <nav class="hero-nav">
+    <div class="hero-nav-logo">🍎 FruitFresh</div>
+    <div class="hero-nav-links">
+      <a href="{{ url_for('auth.login') }}" class="btn-ghost" id="nav-login">Login</a>
+      <a href="{{ url_for('auth.register') }}" class="btn-glow btn-nav" id="nav-register">Get Started</a>
+    </div>
+  </nav>
+
+  <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+    <div class="hero-badge" data-aos="zoom-in" data-aos-delay="200">
+      <span>✨ AI-Powered Freshness Analysis</span>
+    </div>
+
+    <div class="hero-logo-float">
+      <span class="hero-fruit-icon">🍎</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-line">Defy Gravity.</span>
+      <span class="hero-title-line hero-title-accent">Defy Decay.</span>
+    </h1>
+
+    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="300">
+      Predict your fruit's shelf life with AI. Get smart storage tips.<br>
+      Reduce waste. Save money. Save the planet.
+    </p>
+
+    <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
+      <a href="{{ url_for('auth.register') }}" class="btn-glow btn-hero" id="hero-get-started">
+        🚀 Get Started Free
+      </a>
+      <a href="#why" class="btn-ghost btn-hero-secondary" id="hero-learn-more">
+        Learn More ↓
+      </a>
+    </div>
+
+    <div class="hero-stats" data-aos="fade-up" data-aos-delay="700">
+      <div class="hero-stat">
+        <span class="hero-stat-value">15+</span>
+        <span class="hero-stat-label">Fruit Types</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">92%</span>
+        <span class="hero-stat-label">Accuracy</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">0$</span>
+        <span class="hero-stat-label">Forever Free</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1000">
+    <div class="scroll-mouse">
+      <div class="scroll-dot"></div>
+    </div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ═══ WHY FRUITFRESH SECTION ═══ -->
+<section class="why-section" id="why">
+  <div class="section-container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">Why FruitFresh?</span>
+      <h2 class="section-title">Three Superpowers.<br>One App.</h2>
+      <p class="section-desc">Our AI doesn't just guess — it sees freshness at a molecular level.</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Card 1 — Defy Decay -->
+      <div class="feature-card glass" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon-wrapper">
+          <div class="feature-icon">🔬</div>
+          <div class="feature-icon-glow"></div>
+        </div>
+        <h3 class="feature-title">Defy Decay</h3>
+        <p class="feature-desc">
+          Our CNN-powered engine scans your fruit's colour signature and predicts
+          spoilage <em>before it happens</em>. Upload a photo and know exactly how many
+          fresh days you have left.
+        </p>
+        <div class="feature-tag">Predictive AI</div>
+      </div>
+
+      <!-- Card 2 — Smart Storage -->
+      <div class="feature-card glass" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon-wrapper">
+          <div class="feature-icon">❄️</div>
+          <div class="feature-icon-glow glow-cyan"></div>
+        </div>
+        <h3 class="feature-title">Smart Storage</h3>
+        <p class="feature-desc">
+          Every fruit has a perfect environment. FruitFresh maps your produce to
+          precise temperature, humidity, and placement conditions — custom tips
+          tailored to each fruit type.
+        </p>
+        <div class="feature-tag tag-cyan">15 Fruit Profiles</div>
+      </div>
+
+      <!-- Card 3 — Reduce Waste -->
+      <div class="feature-card glass" data-aos="fade-up" data-aos-delay="500">
+        <div class="feature-icon-wrapper">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-icon-glow glow-green"></div>
+        </div>
+        <h3 class="feature-title">Reduce Waste</h3>
+        <p class="feature-desc">
+          1.3 billion tons of food are wasted globally each year. By knowing your
+          fruit's real shelf life, you eat smarter, shop less, and throw away
+          nothing. Small scans, big impact.
+        </p>
+        <div class="feature-tag tag-green">Eco Impact</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS SECTION ═══ -->
+<section class="how-section" id="how">
+  <div class="section-container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title">Three Steps to<br>Zero Waste</h2>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card" data-aos="fade-right" data-aos-delay="100">
+        <div class="step-number">01</div>
+        <h3>Upload</h3>
+        <p>Drag & drop a fruit photo into the dashboard. We accept PNG, JPG, WebP.</p>
+      </div>
+      <div class="step-connector" data-aos="fade-up" data-aos-delay="200">→</div>
+      <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="step-number">02</div>
+        <h3>Analyze</h3>
+        <p>Our AI identifies the fruit, scans freshness, and calculates remaining shelf life.</p>
+      </div>
+      <div class="step-connector" data-aos="fade-up" data-aos-delay="400">→</div>
+      <div class="step-card" data-aos="fade-left" data-aos-delay="500">
+        <div class="step-number">03</div>
+        <h3>Act</h3>
+        <p>Get a floating result badge with days left, confidence score, and storage tips.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA SECTION ═══ -->
+<section class="cta-section" id="cta" data-aos="zoom-in">
+  <div class="cta-card glass">
+    <div class="cta-icon">🛸</div>
+    <h2>Ready to Defy Gravity?</h2>
+    <p>Join FruitFresh and never waste a fruit again.</p>
+    <a href="{{ url_for('auth.register') }}" class="btn-glow btn-hero" id="cta-register">
+      Create Free Account →
+    </a>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer class="landing-footer">
+  <p>© 2026 FruitFresh Antigravity Predictor · Built with 💜 and AI</p>
+</footer>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,
+    duration: 800,
+    easing: 'ease-out-cubic',
+    offset: 80,
+  });
+</script>
+{% endblock %}

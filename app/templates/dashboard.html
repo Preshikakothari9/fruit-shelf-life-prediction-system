@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<!-- Top bar -->
+<nav class="dash-topbar">
+  <div class="logo">🍎 FruitFresh</div>
+  <div class="user-info">
+    <a href="{{ url_for('main.train_model') }}" class="btn-ghost" style="margin-right: 1rem;">Train Model</a>
+    <span>{{ current_user.username }}</span>
+    <a href="{{ url_for('auth.logout') }}" class="btn-ghost" id="btn-logout">Logout</a>
+  </div>
+</nav>
+
+<main class="dash-container">
+  <!-- ── Upload Section ──────────────────────────────────────── -->
+  <section class="upload-section">
+    <div class="upload-zone glass" id="drop-zone">
+      <div class="upload-icon">🛸</div>
+      <h3>Drop a fruit image here</h3>
+      <p>or click to browse · PNG, JPG, WebP up to 16 MB</p>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-strip" id="preview-strip" style="display:none;">
+      <img id="preview-img" src="" alt="Preview">
+      <span class="file-name" id="file-name"></span>
+      <button class="btn-glow" style="width:auto;padding:.6rem 1.5rem;" id="btn-analyze">
+        🔬 Analyze
+      </button>
+    </div>
+
+    <!-- Spinner -->
+    <div class="analyzing" id="analyzing">
+      <div class="spinner"></div>
+      <p>Scanning freshness signature …</p>
+    </div>
+
+    <!-- Result badge -->
+    <div class="result-card glass" id="result-card">
+      <div class="result-header">
+        <span class="result-emoji" id="res-emoji">🍎</span>
+        <div class="result-title">
+          <h2 id="res-fruit">—</h2>
+          <span class="status-badge" id="res-status">—</span>
+        </div>
+      </div>
+      <div class="result-metrics">
+        <div class="metric-card">
+          <div class="metric-value" id="res-days">—</div>
+          <div class="metric-label">Shelf-Life (days)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="res-temp">—</div>
+          <div class="metric-label">Storage Temp</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="res-confidence">—</div>
+          <div class="metric-label">Confidence</div>
+        </div>
+      </div>
+      <div class="storage-tip">
+        <span class="tip-icon">💡</span>
+        <p id="res-tip">—</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── History ─────────────────────────────────────────────── -->
+  <section class="history-section">
+    <h2>📜 Prediction History</h2>
+    <div class="history-grid" id="history-grid">
+      {% if history %}
+        {% for h in history %}
+        <div class="history-item glass" id="hist-{{ h.id }}">
+          <div class="hi-top">
+            <img class="hi-thumb" src="/uploads/{{ h.image_filename }}" alt="{{ h.fruit_type }}">
+            <div class="hi-info">
+              <h4>{{ h.fruit_type }}</h4>
+              <span>{{ h.created_at.strftime('%b %d, %H:%M') }}</span>
+            </div>
+            <button class="btn-delete" onclick="deleteRecord({{ h.id }})" title="Delete">🗑️</button>
+          </div>
+          <div class="hi-stats">
+            <span class="hi-chip">📅 {{ h.predicted_days }} days</span>
+            <span class="hi-chip">🎯 {{ (h.confidence * 100)|round(1) }}%</span>
+            <span class="hi-chip status-badge status-{{ h.freshness_status|replace(' ', '-') }}">{{ h.freshness_status }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">🛸</div>
+          <p>No predictions yet — upload your first fruit image above!</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}

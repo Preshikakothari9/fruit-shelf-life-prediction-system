@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="glass-panel text-center">
+            <h2 class="mb-4"><i class="bi bi-cpu text-primary"></i> Train AI Model</h2>
+            <p class="text-muted mb-4">
+                Upload a ZIP file containing folders of fresh and rotten fruit images to train a custom Neural Network model.
+                <br>
+                <em>Example structure inside the ZIP:</em><br>
+                <code>fresh_apple/</code>, <code>rotten_apple/</code>, <code>fresh_banana/</code>...
+            </p>
+
+            <form id="trainForm" class="mt-4">
+                <div class="upload-area mx-auto mb-4" id="uploadAreaTrain" style="cursor: pointer; border: 2px dashed rgba(255, 255, 255, 0.2); padding: 40px; border-radius: 15px;">
+                    <i class="bi bi-file-earmark-zip display-4 text-primary mb-3"></i>
+                    <h5 class="mb-2">Drag & Drop ZIP Dataset</h5>
+                    <p class="text-muted small mb-0">or click to browse</p>
+                    <input type="file" id="datasetInput" name="dataset" accept=".zip" class="d-none">
+                </div>
+
+                <div id="fileInfoTrain" class="d-none mb-4">
+                    <p class="mb-1"><i class="bi bi-file-zip text-info"></i> <span id="fileNameTrain" class="fw-bold"></span></p>
+                    <button type="button" class="btn btn-sm btn-outline-danger" id="removeFileTrain">Remove</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100" id="trainBtn" disabled>
+                    <i class="bi bi-lightning-charge"></i> Start Training
+                </button>
+            </form>
+
+            <div id="trainProgress" class="d-none mt-4 text-center">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="text-info">Uploading & Processing...</h5>
+                <p class="text-muted small">Training will run in the background. Check terminal logs for progress.</p>
+            </div>
+            
+            <div id="trainSuccess" class="d-none mt-4 text-center">
+                <i class="bi bi-check-circle display-4 text-success mb-3 d-block"></i>
+                <h5 class="text-success">Training Started Successfully!</h5>
+                <p class="text-muted small">The model is now being trained. The system will automatically use it for future predictions once completed.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadAreaTrain');
+    const fileInput = document.getElementById('datasetInput');
+    const trainForm = document.getElementById('trainForm');
+    const trainBtn = document.getElementById('trainBtn');
+    const fileInfo = document.getElementById('fileInfoTrain');
+    const fileName = document.getElementById('fileNameTrain');
+    const removeBtn = document.getElementById('removeFileTrain');
+    const trainProgress = document.getElementById('trainProgress');
+    const trainSuccess = document.getElementById('trainSuccess');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'var(--bs-primary)';
+    });
+
+    uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255,255,255,0.2)';
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255,255,255,0.2)';
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelect();
+        }
+    });
+
+    fileInput.addEventListener('change', handleFileSelect);
+
+    function handleFileSelect() {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            if (!file.name.endsWith('.zip')) {
+                alert('Please upload a ZIP file containing your dataset.');
+                fileInput.value = '';
+                return;
+            }
+            fileName.textContent = file.name;
+            uploadArea.classList.add('d-none');
+            fileInfo.classList.remove('d-none');
+            trainBtn.disabled = false;
+        }
+    }
+
+    removeBtn.addEventListener('click', () => {
+        fileInput.value = '';
+        uploadArea.classList.remove('d-none');
+        fileInfo.classList.add('d-none');
+        trainBtn.disabled = true;
+        trainSuccess.classList.add('d-none');
+    });
+
+    trainForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('dataset', fileInput.files[0]);
+
+        trainForm.classList.add('d-none');
+        trainProgress.classList.remove('d-none');
+
+        try {
+            const response = await fetch('/train_model', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            trainProgress.classList.add('d-none');
+
+            if (data.success) {
+                trainSuccess.classList.remove('d-none');
+            } else {
+                alert(data.error || 'Failed to start training');
+                trainForm.classList.remove('d-none');
+            }
+        } catch (err) {
+            trainProgress.classList.add('d-none');
+            trainForm.classList.remove('d-none');
+            alert('An error occurred while uploading the dataset.');
+        }
+    });
+});
+</script>
+{% endblock %}

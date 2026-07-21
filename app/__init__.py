@@ -13,6 +13,7 @@ def create_app():
 
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     os.makedirs(os.path.join(app.root_path, 'ml_model'), exist_ok=True)
+    os.makedirs(os.path.join(app.root_path, '..', 'instance'), exist_ok=True)
 
     db.init_app(app)
     login_manager.init_app(app)
